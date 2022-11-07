@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour
 
     public void Flip()
     {
-        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-        _isFacingRight = transform.localScale.x > 0;
+        //transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //_isFacingRight = transform.localScale.x > 0;
     }
 }
