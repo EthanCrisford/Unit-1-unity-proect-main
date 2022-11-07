@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class Enemy : MonoBehaviour
 {
     LayerMask groundLayerMask;
@@ -14,17 +12,8 @@ public class Enemy : MonoBehaviour
     public int UnitsToMove = 5;
     public float EnemySpeed = 25;
     public bool _isFacingRight;
-    private float _startPos;
-    private float _endPos;
-    public bool _moveRight = true;
-
-    public void Awake()
-    {
-        enemyRigidBody2D = GetComponent<Rigidbody2D>();
-        _startPos = transform.position.x;
-        _endPos = _startPos + UnitsToMove;
-        _isFacingRight = transform.localScale.x > 0; 
-    }
+    public Rigidbody2D rb;
+    //public int lifeTotal = 3;
 
     public bool DoRayCollisionCheck( float xoffs )
     {
@@ -53,6 +42,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         groundLayerMask = LayerMask.GetMask("ground");
+
+        rb = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -60,10 +51,8 @@ public class Enemy : MonoBehaviour
     {
         bool isHittingPlatform;
 
-
-        
-        isHittingPlatform = DoRayCollisionCheck( 0.3f );
-        isHittingPlatform = DoRayCollisionCheck((float)-0.3 );
+        isHittingPlatform = DoRayCollisionCheck(0.3f);
+        isHittingPlatform = DoRayCollisionCheck((float)-0.3);
 
         print("is hitting=" + isHittingPlatform);
 
@@ -75,23 +64,8 @@ public class Enemy : MonoBehaviour
             print("player is on the left");
         else print("player is on the right");
 
-        if(_moveRight)
-    
-            enemyRigidBody2D.AddForce(Vector2.right * EnemySpeed * Time.deltaTime);
-            if (!_isFacingRight)
-                Flip();
+        rb.velocity = transform.right * EnemySpeed; 
 
-        if (enemyRigidBody2D.position.x >= _endPos)
-            _moveRight = false;
-
-        if (!_moveRight)
-        {
-            enemyRigidBody2D.AddForce(-Vector2.right * EnemySpeed * Time.deltaTime);
-            if (_isFacingRight)
-                Flip();
-        }
-        if (enemyRigidBody2D.position.x <= _startPos)
-            _moveRight = true;
 
     }
 
@@ -100,6 +74,4 @@ public class Enemy : MonoBehaviour
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         _isFacingRight = transform.localScale.x > 0;
     }
-
-
 }
