@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Security;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class player : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class player : MonoBehaviour
     bool isWalking; 
     HelperScript helper;
     public GameObject bullet; // prefab
+    float playerSpawn;
 
     // Start is called before the first frame update
     void Start()
@@ -44,12 +46,14 @@ public class player : MonoBehaviour
             anim.SetBool("idle", true);
         }
 
+
         // check for player landing
         if (isJumping && (touchingPlatform == true) && (rb.velocity.y < 0) && (isWalking == false)) 
         {
             isJumping = false; 
             anim.SetBool("idle", true);
         }
+
 
         if (Input.GetKey("space") && (touchingPlatform == true))
         {
@@ -58,6 +62,7 @@ public class player : MonoBehaviour
             anim.SetBool("jump", true);
             isJumping = true;
         }
+
 
         // player stopped walking check
         if (isWalking == false && (touchingPlatform == true) && (rb.velocity.x < 0)) 
@@ -84,7 +89,6 @@ public class player : MonoBehaviour
             rb.velocity = new Vector2(10,0);
             if (Input.GetKey("a"))
                 rb.velocity = new Vector2(-10,0);
-            
         }
 
 
@@ -94,6 +98,7 @@ public class player : MonoBehaviour
             rb.velocity = new Vector2(-5, 0);
             anim.SetBool("walk", true);
             anim.SetBool("idle", false);
+            anim.SetBool("jump", false);
             helper.FlipObject(true);
         }
 
@@ -107,15 +112,18 @@ public class player : MonoBehaviour
             helper.FlipObject(false);
         }
 
+
         if (isJumping == true)
         {
             anim.SetBool("jump", true);
+            anim.SetBool("idle", false);
         }
+
 
         bool groundHit = helper.DoRayCollisionCheck();
         if (groundHit == true)
         {
-            
+            anim.SetBool("jump", false);
         }
     }
 
@@ -126,11 +134,11 @@ public class player : MonoBehaviour
         {
             touchingPlatform = true;
         }
+
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-
         if (collision.gameObject.tag == "platform")
         {
             touchingPlatform = false;

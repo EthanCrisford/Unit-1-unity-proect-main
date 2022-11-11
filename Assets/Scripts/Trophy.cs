@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Trophy : MonoBehaviour
 {
@@ -20,8 +21,18 @@ public class Trophy : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            Destroy(gameObject);
+
+            //Destroy(gameObject);
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+            Invoke("Endgame", 0.5f);
         }
+    }
+
+    void Endgame()
+    {
+        SceneManager.LoadScene("EndGame");
+
     }
 
 }
