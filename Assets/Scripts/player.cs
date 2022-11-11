@@ -134,7 +134,6 @@ public class player : MonoBehaviour
         {
             touchingPlatform = true;
         }
-
     }
 
     void OnCollisionExit2D(Collision2D collision)
