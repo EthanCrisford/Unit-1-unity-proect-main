@@ -54,15 +54,15 @@ public class Enemy : MonoBehaviour
         isHittingPlatform = DoRayCollisionCheck(0.3f);
         isHittingPlatform = DoRayCollisionCheck((float)-0.3);
 
-        print("is hitting=" + isHittingPlatform);
+        //print("is hitting=" + isHittingPlatform);
 
         playerx = player.transform.position.x;
         playery = player.transform.position.y;
 
         enemyx = transform.position.x;
-        if (playerx < enemyx)
-            print("player is on the left");
-        else print("player is on the right");
+       // if (playerx < enemyx)
+            //print("player is on the left");
+        //else print("player is on the right");
 
         rb.velocity = transform.right * EnemySpeed; 
 

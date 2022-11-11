@@ -20,6 +20,7 @@ public class player : MonoBehaviour
     HelperScript helper;
     public GameObject bullet; // prefab
     float playerSpawn;
+    bool groundHit;
 
     // Start is called before the first frame update
     void Start()
@@ -36,29 +37,31 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        groundHit = helper.DoRayCollisionCheck();
 
         anim.SetBool("walk", false);
         anim.SetBool("jump", false);
         anim.SetBool("idle", false);
 
-        if (isJumping == false && (walk = false) && (touchingPlatform == true)) 
+        if (isJumping == false && (walk == false) && (touchingPlatform == true)) 
         {
             anim.SetBool("idle", true);
         }
 
 
         // check for player landing
-        if (isJumping && (touchingPlatform == true) && (rb.velocity.y < 0) && (isWalking == false)) 
+        if (isJumping && (touchingPlatform == true) && (rb.velocity.y < 0) )//&& (isWalking == false)) 
         {
             isJumping = false; 
             anim.SetBool("idle", true);
+            print("landed");
         }
 
 
         if (Input.GetKey("space") && (touchingPlatform == true))
         {
             //transform.position = new Vector2(transform.position.x, transform.position.y + (speed * Time.deltaTime));
-            rb.velocity = new Vector2(0, 9); 
+            rb.velocity = new Vector2( rb.velocity.x, 9); 
             anim.SetBool("jump", true);
             isJumping = true;
         }
@@ -80,6 +83,7 @@ public class player : MonoBehaviour
             //anim.SetBool("idle", false);
         }
 
+        /*
         if( Input.GetMouseButtonDown (0))
         {
             Rigidbody2D rb;
@@ -90,9 +94,10 @@ public class player : MonoBehaviour
             if (Input.GetKey("a"))
                 rb.velocity = new Vector2(-10,0);
         }
+        */
 
 
-        if (Input.GetKey("a"))
+        if (Input.GetKey("a") && (isJumping==false))
         {
             //transform.position = new Vector2(transform.position.x - (speed * Time.deltaTime), transform.position.y);
             rb.velocity = new Vector2(-5, 0);
@@ -103,7 +108,7 @@ public class player : MonoBehaviour
         }
 
 
-        if (Input.GetKey("d"))
+        if (Input.GetKey("d") && (isJumping == false))
         {
             //transform.position = new Vector2(transform.position.x + (speed * Time.deltaTime), transform.position.y);
             rb.velocity = new Vector2(5, 0);
@@ -120,10 +125,15 @@ public class player : MonoBehaviour
         }
 
 
-        bool groundHit = helper.DoRayCollisionCheck();
+        
         if (groundHit == true)
         {
             anim.SetBool("jump", false);
+            touchingPlatform = true;
+        }
+        else
+        {
+            touchingPlatform = false;
         }
     }
 
@@ -132,7 +142,7 @@ public class player : MonoBehaviour
 
         if (collision.gameObject.tag == "platform")
         {
-            touchingPlatform = true;
+            //touchingPlatform = true;
         }
     }
 
@@ -140,7 +150,7 @@ public class player : MonoBehaviour
     {
         if (collision.gameObject.tag == "platform")
         {
-            touchingPlatform = false;
+            //touchingPlatform = false;
         }
     }
 } 
