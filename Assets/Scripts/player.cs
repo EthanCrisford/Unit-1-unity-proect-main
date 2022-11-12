@@ -25,6 +25,9 @@ public class player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //being ignored and is loading scene EndGame first despite being told the opposite ?????????
+        SceneManager.LoadScene(1);
+
         rb = GetComponent<Rigidbody2D>();
 
         anim = GetComponent<Animator>();
