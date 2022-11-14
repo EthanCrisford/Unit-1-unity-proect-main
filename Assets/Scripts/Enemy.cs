@@ -64,8 +64,8 @@ public class Enemy : MonoBehaviour
             //print("player is on the left");
         //else print("player is on the right");
 
-        rb.velocity = transform.right * EnemySpeed; 
-
+        rb.velocity = transform.right * EnemySpeed;
+        //rb.velocity = transform.down * EnemySpeed;
 
     }
 
